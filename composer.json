@@ -1,0 +1,14 @@
+{
+    "name": "hewerthomn/loggy",
+    "description": "Pacote Laravel para registrar ações das aplicações",
+    "require": {
+        "laravel/laravel": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Éverton Inocêncio",
+            "email": "hewerthomn@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
