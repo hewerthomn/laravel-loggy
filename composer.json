@@ -1,8 +1,10 @@
 {
     "name": "hewerthomn/loggy",
-    "description": "Pacote Laravel para registrar ações das aplicações",
+    "description": "Laravel package to log application actions",
     "require": {
-        "laravel/laravel": "dev-master"
+        "php": ">=5.5.9",
+        "illuminate/config": "~5.0",
+        "illuminate/support": "~5.0"
     },
     "authors": [
         {
@@ -10,5 +12,9 @@
             "email": "hewerthomn@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "autoload": {
+        "psr-4": {
+            "Hewerthomn\\Loggy\\": "src/"
+        }
+    }
 }
