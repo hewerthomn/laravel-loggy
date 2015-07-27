@@ -13,6 +13,8 @@ class LoggyServiceProvider extends ServiceProvider
     {
         $this->handleConfigs();
         $this->handleMigrations();
+
+        $this->handleRoutes();
     }
 
     /**
@@ -36,5 +38,10 @@ class LoggyServiceProvider extends ServiceProvider
     private function handleMigrations()
     {
         $this->publishes([__DIR__.'/../../migrations' => base_path('database/migrations')]);
+    }
+
+    private function handleRoutes()
+    {
+        include __DIR__.'/../../routes.php';
     }
 }

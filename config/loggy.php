@@ -5,5 +5,7 @@
  */
 
 return [
-  'app_id' => 'laravel'
+  'app_id' => 'laravel',
+
+  'userClass' => 'App\User'
 ];

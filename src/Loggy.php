@@ -18,9 +18,9 @@ class Loggy extends Model
 
   public $timestamps = false;
 
-  public function usuario()
+  public function user()
   {
-    return $this->belongsTo(Usuario::class);
+    return $this->belongsTo(Config::get('loggy.userClass', 'App\User'));
   }
 
   public function cssClass()
