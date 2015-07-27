@@ -1,0 +1,21 @@
+{
+    "name": "hewerthomn/loggy",
+    "description": "Laravel package to log application actions",
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/config": "~5.0",
+        "illuminate/support": "~5.0"
+    },
+    "authors": [
+        {
+            "name": "Éverton Inocêncio",
+            "email": "hewerthomn@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Hewerthomn\\Loggy\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
