@@ -78,7 +78,9 @@ class Loggy extends Model
     $app_id = $app_id === null ? Config::get('loggy.app_id') : $app_id;
 
     return $this->where('app_id', '=', $app_id)
-                ->whereRaw(DB::raw("DATE(created_at) = '{$today}'"));
+                ->whereRaw(DB::raw("DATE(created_at) = '{$today}'"))
+                ->orderBy('created_at', 'DESC')
+                ->get();
   }
 
   public function between($startAt = null, $endAt = null)
