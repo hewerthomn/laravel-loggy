@@ -58,10 +58,11 @@ class Loggy extends Model
 
   public function types()
   {
+    $types['all']            = 'All types';
     $types[self::$SUCCESS]   = 'Success';
     $types[self::$INFO]      = 'Information';
     $types[self::$WARNING]   = 'Warning';
-    $types[self::$EXCEPTION] = 'Error';
+    $types[self::$ERROR]     = 'Error';
     $types[self::$EXCEPTION] = 'Exception';
 
     return $types;
@@ -72,6 +73,51 @@ class Loggy extends Model
     return $this->groupBy('app_id')->lists('app_id', 'app_id');
   }
 
+  public function filter($request)
+  {
+    $app_id = $request->has('app_id') ? $request->input('app_id') : Config::get('loggy.app_id');
+
+    $logs = new self;
+
+    if($request->has('start_at'))
+    {
+      $startAt = \DateTime::createFromFormat('d/m/Y', Input::get('start_at'));
+      $startAt = $startAt->format('Y-m-d');
+    }
+    else
+    {
+      $startAt = date('Y-m-d');
+    }
+
+    if($request->has('end_at'))
+    {
+      $endAt = \DateTime::createFromFormat('d/m/Y', Input::get('end_at'));
+      $endAt = $endAt->format('Y-m-d');
+    }
+    else
+    {
+      $endAt = date('Y-m-d');
+    }
+
+    $logs = $this->where('app_id', '=', $app_id)
+                 ->whereRaw(DB::raw("DATE(created_at) >= '{$startAt}'"))
+                 ->whereRaw(DB::raw("DATE(created_at) <= '{$endAt}'"));
+
+    if($request->has('type') && $request->input('type') !== 'all')
+    {
+      $logs = $logs->where('type', '=', $request->input('type'));
+    }
+
+    if($request->has('q'))
+    {
+      $query = '%'.strtolower($request->input('q')).'%';
+      $logs = $logs->where(DB::raw('LOWER(title)'), 'LIKE', $query)
+                   ->orWhere(DB::raw('LOWER(message)'), 'LIKE', $query);
+    }
+
+    return $logs->orderBy('created_at', 'DESC')->get();
+  }
+
   public function today($app_id = null)
   {
     $today = date('Y-m-d');
@@ -79,8 +125,7 @@ class Loggy extends Model
 
     return $this->where('app_id', '=', $app_id)
                 ->whereRaw(DB::raw("DATE(created_at) = '{$today}'"))
-                ->orderBy('created_at', 'DESC')
-                ->get();
+                ->orderBy('created_at', 'DESC');
   }
 
   public function between($startAt = null, $endAt = null)
