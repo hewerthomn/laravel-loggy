@@ -108,6 +108,11 @@ class Loggy extends Model
       $logs = $logs->where('type', '=', $request->input('type'));
     }
 
+    if($request->has('user_id') && $request->input('user_id') > 0)
+    {
+      $logs = $logs->where('user_id', '=', $request->input('user_id'));
+    }
+
     if($request->has('q'))
     {
       $query = '%'.strtolower($request->input('q')).'%';
