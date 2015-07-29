@@ -171,7 +171,7 @@ class Loggy extends Model
     $log->app_id = Config::get('loggy.app_id');
     $log->user_id = Auth::user() ? Auth::user()->id : null;
     $log->created_at = new \DateTime();
-    $log->request = json_encode(Request::all());
+    $log->request = json_encode(Request::except(Config::get('loggy.inputExcept', [])));
 
     @$log->save();
   }
