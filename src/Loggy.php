@@ -10,11 +10,11 @@ class Loggy extends Model
 {
   protected $table = 'loggy';
 
-  protected static $SUCCESS   = 's';
-  protected static $WARNING   = 'w';
-  protected static $INFO      = 'i';
-  protected static $ERROR     = 'e';
-  protected static $EXCEPTION = 'ex';
+  protected static $SUCCESS   = 'success';
+  protected static $WARNING   = 'warning';
+  protected static $INFO      = 'info';
+  protected static $ERROR     = 'error';
+  protected static $EXCEPTION = 'exception';
 
   public $timestamps = false;
 
@@ -28,17 +28,19 @@ class Loggy extends Model
     switch ($this->type)
     {
       case self::$SUCCESS:
-        return 'success';
+        return Config::get('loggy.classes.success', 'success');
 
       case self::$INFO:
-        return 'info';
+        return Config::get('loggy.classes.info', 'info');
 
       case self::$WARNING:
-        return 'warning';
+        return Config::get('loggy.classes.warning', 'warning');
 
       case self::$ERROR:
+        return Config::get('loggy.classes.error', 'error');
+
       case self::$EXCEPTION:
-        return 'danger';
+        return Config::get('loggy.classes.exception', 'exception');
     }
   }
 
@@ -46,11 +48,11 @@ class Loggy extends Model
   {
     switch ($this->type)
     {
-      case self::$SUCCESS: return '<i class="fa fa-ok"></i>';
-      case self::$INFO: return '<i class="fa fa-info-sign"></i>';
-      case self::$WARNING: return '<i class="fa fa-warning-sign"></i>';
-      case self::$ERROR: return '<i class="fa fa-exclamation-sign"></i>';
-      case self::$EXCEPTION: return '<i class="fa fa-fire"></i>';
+      case self::$SUCCESS: return Config::get('loggy.icons.success', '<i class="fa fa-ok"></i>');
+      case self::$INFO: return Config::get('loggy.icons.info', '<i class="fa fa-info-sign"></i>');
+      case self::$WARNING: return Config::get('loggy.icons.warning', '<i class="fa fa-warning-sign"></i>');
+      case self::$ERROR: return Config::get('loggy.icons.error', '<i class="fa fa-exclamation-sign"></i>');
+      case self::$EXCEPTION: return Config::get('loggy.icons.exception', '<i class="fa fa-fire"></i>');
     }
   }
 
