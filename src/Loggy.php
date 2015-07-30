@@ -81,7 +81,7 @@ class Loggy extends Model
 
     if($request->has('start_at'))
     {
-      $startAt = \DateTime::createFromFormat('d/m/Y', Input::get('start_at'));
+      $startAt = \DateTime::createFromFormat('d/m/Y', $request->input('start_at'));
       $startAt = $startAt->format('Y-m-d');
     }
     else
@@ -91,7 +91,7 @@ class Loggy extends Model
 
     if($request->has('end_at'))
     {
-      $endAt = \DateTime::createFromFormat('d/m/Y', Input::get('end_at'));
+      $endAt = \DateTime::createFromFormat('d/m/Y', $request->input('end_at'));
       $endAt = $endAt->format('Y-m-d');
     }
     else
