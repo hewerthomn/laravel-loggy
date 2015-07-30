@@ -123,56 +123,12 @@ class Loggy extends Model
     return $logs->orderBy('created_at', 'DESC')->get();
   }
 
-  public function today($app_id = null)
-  {
-    $today = date('Y-m-d');
-    $app_id = $app_id === null ? Config::get('loggy.app_id') : $app_id;
-
-    return $this->where('app_id', '=', $app_id)
-                ->whereRaw(DB::raw("DATE(created_at) = '{$today}'"))
-                ->orderBy('created_at', 'DESC');
-  }
-
-  public function between($startAt = null, $endAt = null)
-  {
-    if($startAt)
-    {
-      $startAt = \DateTime::createFromFormat('d/m/Y', Input::get('start_at'));
-      $startAt = $startAt->format('Y-m-d');
-    }
-    else
-    {
-      $startAt = date('Y-m-d');
-    }
-
-    if($endAt)
-    {
-      $endAt = \DateTime::createFromFormat('d/m/Y', Input::get('end_at'));
-      $endAt = $endAt->format('Y-m-d');
-    }
-    else
-    {
-      $endAt = date('Y-m-d');
-    }
-
-    $logs = $this->loggy->where('app_id', '=', $app_id)
-                        ->whereRaw(DB::raw("DATE(created_at) >= '{$startAt}'"))
-                        ->whereRaw(DB::raw("DATE(created_at) <= '{$endAt}'"));
-
-    if($type !== null)
-    {
-      $logs = $logs->where('type', '=', $type);
-    }
-
-    return $logs->orderBy('created_at', 'DESC')->get();
-  }
-
   private function log($type, $title, $message)
   {
     $log = new self;
     $log->type  = $type;
     $log->title = $title;
-    $log->message  = $message;
+    $log->message = $message;
     $log->app_id = Config::get('loggy.app_id');
     $log->user_id = Auth::user() ? Auth::user()->id : null;
     $log->created_at = new \DateTime();
